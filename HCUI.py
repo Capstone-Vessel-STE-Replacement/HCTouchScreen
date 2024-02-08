@@ -4,13 +4,13 @@ from kivy.core.window import Window
 from kivy.utils import get_color_from_hex
 from kivy.uix.popup import Popup 
 from kivy.uix.label import Label
-
+#imports
 
 class InfoPopup(Popup):
     pass
 
 class TouchScreen(BoxLayout):
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs): 
         super(TouchScreen, self).__init__(**kwargs)
         self.info_popup = InfoPopup()
 
