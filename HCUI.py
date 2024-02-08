@@ -4,9 +4,9 @@ from kivy.core.window import Window
 from kivy.utils import get_color_from_hex
 from kivy.uix.popup import Popup 
 from kivy.uix.label import Label
-#imports
+#imports here
 
-class InfoPopup(Popup):
+class InfoPopup(Popup): 
     pass
 
 class TouchScreen(BoxLayout):
