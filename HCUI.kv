@@ -230,18 +230,18 @@
                     font_size: '20sp'
                     bold: True
 
-<RoundedButton@ButtonBehavior+Label>: #Rounded buttons class
-    background_color: 1, 1, 1, 1
-    canvas.before:
-        Color:
-            rgba: self.background_color
-        RoundedRectangle:
-            pos: self.pos
-            size: self.size
-            radius: [25]
-    canvas.after:
-        Color:
-            rgba: 1, 1, 1, 1
-        Line:
-            rounded_rectangle: self.x, self.y, self.width, self.height, 15
-            width: 1.5
+# <RoundedButton@ButtonBehavior+Label>: #Rounded buttons class
+#     background_color: 1, 1, 1, 1 # make the background color white
+#     canvas.before:
+#         Color:
+#             rgba: self.background_color 
+#         RoundedRectangle:
+#             pos: self.pos
+#             size: self.size
+#             radius: [25]
+#     canvas.after:
+#         Color:
+#             rgba: 1, 1, 1, 1 # make the border color white
+#         Line:
+#             rounded_rectangle: self.x, self.y, self.width, self.height, 15
+#             width: 1.5
