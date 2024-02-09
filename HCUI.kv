@@ -18,6 +18,7 @@
 
             
 <TouchScreen>:
+
     orientation: 'vertical'
 
     BoxLayout: # BoxLayout for the top label
@@ -35,16 +36,31 @@
             text: 'GENERAL DYNAMICS'
             color: 1, 1, 1, 1
             size_hint_x: None
-            width: self.texture_size[0] + 20
+            width: self.texture_size[0] + 40
             font_size: '20sp'
             bold: True
         Label: #separator label
             text: ' '
             color: 1, 1, 1, 1
             size_hint_x: None
-            width: self.texture_size[0] + 850
+            width: self.texture_size[0] + 80
             font_size: '20sp'
             bold: True
+
+        ActivationProgressBar:
+            id: activation_progress
+            size_hint_y: None
+            width: '200dp'
+            height: dp(90)
+
+        Label: #separator label
+            text: ' '
+            color: 1, 1, 1, 1
+            size_hint_x: None
+            width: self.texture_size[0] + 80
+            font_size: '20sp'
+            bold: True
+        
             
         RoundedButton:
             text: 'POWER'
@@ -180,21 +196,17 @@
                         pos: self.pos
                         size: self.size
                         radius: [25]
-                
+
                 Label:
-                    text: 'TIME'
+                    id: time_label
+                    text: '00:00'
                     color: 1, 1, 1, 1
                     size_hint_y: None
                     height: '50dp'
-                    font_size: '20sp'
+                    font_size: '40sp'
                     bold: True
-                Label:
-                    text: 'Radio'
-                    color: 1, 1, 1, 1
-                    size_hint_y: None
-                    height: '50dp'
-                    font_size: '20sp'
-                    bold: True
+                Widget:  # This empty widget will take up 1/3 of the space on x plane
+                    size_hint_x: 0.05
 
             BoxLayout: # Operating States Button Box
                 orientation: 'vertical'
@@ -229,19 +241,3 @@
                     size_hint: 1, 0.3  
                     font_size: '20sp'
                     bold: True
-
-# <RoundedButton@ButtonBehavior+Label>: #Rounded buttons class
-#     background_color: 1, 1, 1, 1 # make the background color white
-#     canvas.before:
-#         Color:
-#             rgba: self.background_color 
-#         RoundedRectangle:
-#             pos: self.pos
-#             size: self.size
-#             radius: [25]
-#     canvas.after:
-#         Color:
-#             rgba: 1, 1, 1, 1 # make the border color white
-#         Line:
-#             rounded_rectangle: self.x, self.y, self.width, self.height, 15
-#             width: 1.5
