@@ -4,17 +4,51 @@
 #imports here
 
 <InfoPopup>:
-    title: 'More Information'
+    title: "" 
+    separator_height: 0
     size_hint: None, None
-    size: 450, 600  # Adjust size to match the "Current Status" GridLayout
-    pos_hint: {'center_x': 0.25, 'center_y': 0.5}  # Adjust position
+    size: 700, 1000
+    pos_hint: {'center_x': 0.3, 'center_y': 0.5}
     BoxLayout:
         orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: get_color_from_hex('#7AADFA')
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [25]  
         Label:
-            text: 'Detailed Information Here'
-        Button:
+            text: 'Longitude:'
+            color: 1, 1, 1, 1 
+            font_size: '15sp'
+            bold: True
+        Label:
+            text: 'Latitude:'
+            color: 1, 1, 1, 1 
+            font_size: '15sp'
+            bold: True
+        Label:
+            text: 'Tone:'
+            color: 1, 1, 1, 1 
+            font_size: '15sp'
+            bold: True
+        Label:
+            text: 'Transmissions Sent:'
+            color: 1, 1, 1, 1 
+            font_size: '15sp'
+            bold: True
+        
+        RoundedButton:
             text: 'Close'
+            background_color: get_color_from_hex('#1F448C')  # Button color to match other buttons
+            color: 1, 1, 1, 1  # White text color
+            size_hint_y: None
+            height: '50dp'
+            font_size: '20sp'
+            bold: True
             on_press: root.dismiss()
+
 
             
 <TouchScreen>:

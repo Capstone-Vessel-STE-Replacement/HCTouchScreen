@@ -45,7 +45,7 @@ class ActivationProgressBar(BoxLayout): # progress bar uses kivymd for styling
         if remaining_time <= 0:
             self.timer_label.text = 'Button Activated'
 
-    def reset_progress(self): #When the button is released, reset the progress bar
+    def reset_progress(self): #When the buttxon is released, reset the progress bar
         Clock.unschedule(self.update_progress)
         self.progress_bar.value = 0
         self.timer_label.text = '3' 
@@ -74,23 +74,27 @@ class RoundedButton(ButtonBehavior, Label):
         self.bg_rect.pos = self.pos
         self.border.rounded_rectangle = (self.x, self.y, self.width, self.height, 15)
 
-    def on_press(self): # When the button is pressed
+    def on_press(self):
         self.canvas.before.clear()
         with self.canvas.before:
-            Color(rgba=self.background_down_color) # Change the color to the pressed state
+            Color(rgba=self.background_down_color)
             RoundedRectangle(size=self.size, pos=self.pos, radius=[15])
-        activation_progress = MDApp.get_running_app().root.ids.activation_progress
-        activation_progress.start_countdown() # Start the countdown
-        self._trigger = Clock.schedule_once(self.activate_button, 3) # Schedule the activation after 3 seconds
+
+        if self.text != 'MORE INFO' and self.text != 'CLOSE':
+            activation_progress = MDApp.get_running_app().root.ids.activation_progress
+            activation_progress.start_countdown()  
+            self._trigger = Clock.schedule_once(self.activate_button, 3)  # Schedule the activation after 3 seconds
 
     def on_release(self):
         self.canvas.before.clear()
         with self.canvas.before:
             Color(rgba=self.background_normal_color)
             RoundedRectangle(size=self.size, pos=self.pos, radius=[15])
-        activation_progress = MDApp.get_running_app().root.ids.activation_progress
-        activation_progress.reset_progress()
-        self.cancel_activation()
+
+        if self.text != 'MORE INFO' and self.text != 'CLOSE':
+            activation_progress = MDApp.get_running_app().root.ids.activation_progress
+            activation_progress.reset_progress()  # Reset the progress only if the button is not 'MORE INFO'
+            self.cancel_activation()
 
     def activate_button(self, dt):
         print("Button activated")
@@ -101,27 +105,39 @@ class RoundedButton(ButtonBehavior, Label):
             self._trigger = None
 
 
-    def activate_button(self, dt):
+    # def activate_button(self, dt):
 
-        pi_address = 'http://<raspberry-pi-ip>:<port>/command'
-        command = self.text.lower()  # This will be 'active', 'passive', or 'standby'
+    #     pi_address = 'http://<raspberry-pi-ip>:<port>/command'
+    #     command = self.text.lower()  # This will be 'active', 'passive', or 'standby'
         
-        # Send the command to the Raspberry Pi
-        try:
-            response = requests.post(pi_address, json={'command': command})
-            if response.status_code == 200:
-                print("Command sent successfully")
-            else:
-                print("Error sending command")
-        except requests.exceptions.RequestException as e:
-            print(f"Error: {e}")
+    #     # Send the command to the Raspberry Pi
+    #     try:
+    #         response = requests.post(pi_address, json={'command': command})
+    #         if response.status_code == 200:
+    #             print("Command sent successfully")
+    #         else:
+    #             print("Error sending command")
+    #     except requests.exceptions.RequestException as e:
+    #         print(f"Error: {e}")
 
-    # ... remaining code ...
+    # # ... remaining code ...
 
 
 
-class InfoPopup(Popup): 
-    pass
+class InfoPopup(Popup):
+    def __init__(self, **kwargs):
+        super(InfoPopup, self).__init__(**kwargs)
+        self.background = ''  # Set the background to an empty string to remove the default
+        self.is_open = False
+        self.background_color = [0, 0, 0, 0]  # Make the background transparent
+        with self.canvas.before:
+            Color(rgba=get_color_from_hex('#1F448C'))  # Set your desired background color
+
+    def on_open(self):
+        self.is_open = True
+
+    def on_dismiss(self):
+        self.is_open = False
 
 class TouchScreen(BoxLayout):
     def __init__(self, **kwargs): 
@@ -134,13 +150,19 @@ class TouchScreen(BoxLayout):
 
     def update_time(self, *args):
         self.ids.time_label.text = datetime.now().strftime('%H:%M')
-
     
     def on_size(self, *args):
         self.rect.size = self.size
     
     def on_pos(self, *args):
         self.rect.pos = self.pos
+    
+    def toggle_info_popup(self):
+        if self.info_popup.is_open:
+            self.info_popup.dismiss()
+        else:
+            self.info_popup.open()
+            self.info_popup.is_open = True
 
 class HCUIApp(MDApp): 
     def build(self):
