@@ -12,6 +12,7 @@ from datetime import datetime
 from kivy.graphics import Color, Line, RoundedRectangle
 from kivy.metrics import dp
 from kivy.utils import get_color_from_hex
+import requests
 
 class ActivationProgressBar(BoxLayout): # progress bar uses kivymd for styling
     def __init__(self, **kwargs): #setup the progress bar and the label
@@ -98,6 +99,25 @@ class RoundedButton(ButtonBehavior, Label):
         if self._trigger:
             Clock.unschedule(self._trigger)
             self._trigger = None
+
+
+    def activate_button(self, dt):
+
+        pi_address = 'http://<raspberry-pi-ip>:<port>/command'
+        command = self.text.lower()  # This will be 'active', 'passive', or 'standby'
+        
+        # Send the command to the Raspberry Pi
+        try:
+            response = requests.post(pi_address, json={'command': command})
+            if response.status_code == 200:
+                print("Command sent successfully")
+            else:
+                print("Error sending command")
+        except requests.exceptions.RequestException as e:
+            print(f"Error: {e}")
+
+    # ... remaining code ...
+
 
 
 class InfoPopup(Popup): 
