@@ -13,6 +13,8 @@ from kivy.graphics import Color, Line, RoundedRectangle
 from kivy.metrics import dp
 from kivy.utils import get_color_from_hex
 import requests
+import subprocess
+from pymavlink import mavutil
 
 class ActivationProgressBar(BoxLayout): # progress bar uses kivymd for styling
     def __init__(self, **kwargs): #setup the progress bar and the label
@@ -79,11 +81,10 @@ class RoundedButton(ButtonBehavior, Label):
         with self.canvas.before:
             Color(rgba=self.background_down_color)
             RoundedRectangle(size=self.size, pos=self.pos, radius=[15])
-
-        if self.text != 'MORE INFO' and self.text != 'CLOSE':
+        # Start the countdown for mode activation buttons
+        if self.text in ['ACTIVE', 'PASSIVE', 'STANDBY', 'POWER']:
             activation_progress = MDApp.get_running_app().root.ids.activation_progress
-            activation_progress.start_countdown()  
-            self._trigger = Clock.schedule_once(self.activate_button, 3)  # Schedule the activation after 3 seconds
+            activation_progress.start_countdown()
 
     def on_release(self):
         self.canvas.before.clear()
@@ -91,19 +92,22 @@ class RoundedButton(ButtonBehavior, Label):
             Color(rgba=self.background_normal_color)
             RoundedRectangle(size=self.size, pos=self.pos, radius=[15])
 
-        if self.text != 'MORE INFO' and self.text != 'CLOSE':
+        if self.text in ['ACTIVE', 'PASSIVE', 'STANDBY', 'POWER']:
             activation_progress = MDApp.get_running_app().root.ids.activation_progress
-            activation_progress.reset_progress()  # Reset the progress only if the button is not 'MORE INFO'
-            self.cancel_activation()
-
-    def activate_button(self, dt):
-        print("Button activated")
+            activation_progress.reset_progress()
+            if self.text == 'POWER':
+                self._trigger = Clock.schedule_once(
+                    lambda dt: getattr(MDApp.get_running_app().root, 'shutdown_system')(), 3
+                )
+            else:
+                self._trigger = Clock.schedule_once(
+                    lambda dt: getattr(MDApp.get_running_app().root, f'activate_{self.text.lower()}_mode')(), 3
+                )
 
     def cancel_activation(self):
         if self._trigger:
             Clock.unschedule(self._trigger)
             self._trigger = None
-
 
 class InfoPopup(Popup):
     def __init__(self, **kwargs):
@@ -145,10 +149,31 @@ class TouchScreen(BoxLayout):
             self.info_popup.open()
             self.info_popup.is_open = True
 
+    def activate_active_mode(self):
+        print("hello active")
+
+    def activate_passive_mode(self):
+        print("helllo passive")
+
+
+    def activate_standby_mode(self):
+        print("helllo standby")
+
+    def update_operational_status(self, mode):
+        self.ids.operating_mode_label.text = f"MODE: {mode.upper()}"
+    
+    def shutdown_system(self):
+        try:
+            subprocess.call(['sudo', 'shutdown', '-h', 'now'])
+        except Exception as e:
+            print(f"Error shutting down: {e}")
+
+
 class HCUIApp(MDApp): 
     def build(self):
 
         self.theme_cls.primary_palette = "Blue"
+        Window.fullscreen = True
 
         return TouchScreen()
 

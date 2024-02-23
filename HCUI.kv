@@ -252,6 +252,7 @@
                     size_hint: 1, 0.3 
                     font_size: '20sp'
                     bold: True
+                    on_release: app.root.activate_active_mode()
 
                 RoundedButton:
                     text: 'PASSIVE'
@@ -259,6 +260,7 @@
                     size_hint: 1, 0.3  
                     font_size: '20sp'
                     bold: True
+                    on_release: app.root.activate_passive_mode()
 
                 RoundedButton:
                     text: 'STANDBY'
@@ -266,3 +268,4 @@
                     size_hint: 1, 0.3  
                     font_size: '20sp'
                     bold: True
+                    on_release: app.root.activate_standby_mode()
