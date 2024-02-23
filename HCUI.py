@@ -105,25 +105,6 @@ class RoundedButton(ButtonBehavior, Label):
             self._trigger = None
 
 
-    # def activate_button(self, dt):
-
-    #     pi_address = 'http://<raspberry-pi-ip>:<port>/command'
-    #     command = self.text.lower()  # This will be 'active', 'passive', or 'standby'
-        
-    #     # Send the command to the Raspberry Pi
-    #     try:
-    #         response = requests.post(pi_address, json={'command': command})
-    #         if response.status_code == 200:
-    #             print("Command sent successfully")
-    #         else:
-    #             print("Error sending command")
-    #     except requests.exceptions.RequestException as e:
-    #         print(f"Error: {e}")
-
-    # # ... remaining code ...
-
-
-
 class InfoPopup(Popup):
     def __init__(self, **kwargs):
         super(InfoPopup, self).__init__(**kwargs)
