@@ -173,7 +173,7 @@ class HCUIApp(MDApp):
     def build(self):
 
         self.theme_cls.primary_palette = "Blue"
-        Window.fullscreen = True
+       # Window.fullscreen = True
 
         return TouchScreen()
 
