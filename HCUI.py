@@ -1,3 +1,4 @@
+from enum import auto
 from kivymd.app import MDApp  
 from kivymd.uix.progressbar import MDProgressBar 
 
@@ -174,7 +175,7 @@ class HCUIApp(MDApp):
     def build(self):
 
         self.theme_cls.primary_palette = "Blue"
-       # Window.fullscreen = True
+        Window.fullscreen = 'auto'
 
         return TouchScreen()
 
