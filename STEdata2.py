@@ -8,6 +8,9 @@ import pynmea2
 import threading
 import shutil
 import smbus2
+import radio
+import HCUI
+
 from geopy.distance import geodesic
 
 ###################################################################################
@@ -288,8 +291,8 @@ def passive_mode():
 
 ###############################################
 ##### JOSH CODE GOES HERE
-def radio():
-	print("doing stuff")		
+def radio_Overhead():
+	radio.play_tone()		
 ################################
 	
 def active_mode():
@@ -298,7 +301,7 @@ def active_mode():
 		current_location = get_gps_data()
 		# tx_start = datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
 		tx_start = get_gps_time()
-		radio()
+		radio_Overhead()
 		pdop = current_location['pdop'] if current_location['pdop'] else "N/A"
 		log_data(tx_start, tone_hold, current_location['lat'], current_location['lon'],"0", pdop)
 		

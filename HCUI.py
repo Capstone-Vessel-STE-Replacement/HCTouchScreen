@@ -16,6 +16,7 @@ from kivy.metrics import dp
 from kivy.utils import get_color_from_hex
 import requests
 import subprocess
+import STEdata2
 from pymavlink import mavutil
 from kivy.uix.floatlayout import FloatLayout
 
@@ -178,7 +179,7 @@ class TouchScreen(BoxLayout):
         print("Standby")
 
     def update_operational_status(self, mode):
-        self.ids.operating_mode_label.text = f"MODE: {mode.upper()}"
+        self.ids.operaradio_ting_mode_label.text = f"MODE: {mode.upper()}"
     
     def shutdown_system(self):
         try:
@@ -195,5 +196,3 @@ class HCUIApp(MDApp):
 
         return TouchScreen()
 
-if __name__ == '__main__':
-    HCUIApp().run()
