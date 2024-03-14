@@ -1,6 +1,7 @@
 from enum import auto
 from kivymd.app import MDApp  
 from kivymd.uix.progressbar import MDProgressBar 
+from kivymd.uix.label import MDIcon
 
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.behaviors import ButtonBehavior
@@ -18,41 +19,56 @@ import subprocess
 from pymavlink import mavutil
 from kivy.uix.floatlayout import FloatLayout
 
-class ActivationProgressBar(BoxLayout): # progress bar uses kivymd for styling
-    def __init__(self, **kwargs): #setup the progress bar and the label
+class ActivationProgressBar(BoxLayout):
+    def __init__(self, **kwargs):
         super(ActivationProgressBar, self).__init__(**kwargs)
         self.orientation = 'horizontal'
         self.size_hint_y = None
-        self.height = '1000dp'  
+        self.height = '100dp'
 
-        self.progress_bar = MDProgressBar(max=3, value=0, size_hint_x=.5) #initialize the progress bar
+        self.progress_bar = MDProgressBar(max=3, value=0, size_hint_x=3.5)
         self.progress_bar.size_hint_y = None
-        self.progress_bar.height = dp(36)  # Set the height here
+        self.progress_bar.height = dp(36)
 
-        self.add_widget(self.progress_bar) #seconds to activate label
-        self.timer_label = Label(text='3', size_hint_x=0.1, halign='center', bold=True, font_size=dp(21))
-        self.timer_label.size_hint_y = None
-        self.add_widget(self.timer_label)
+        self.add_widget(self.progress_bar)
+
+        # Create a container for either the timer label or the completion icon
+        self.label_or_icon_container = FloatLayout(size_hint=(0.5, 1))
+        self.add_widget(self.label_or_icon_container)
+
+        # Initially, we display the timer label
+        self.timer_label = Label(text='3', size_hint=(None, None), size=(dp(48), dp(48)), halign='center', bold=True, font_size=dp(21))
+        self.timer_label.pos_hint = {'center_x': 0.5, 'center_y': 0.23}
+        self.label_or_icon_container.add_widget(self.timer_label)
 
     def start_countdown(self): # Start the countdown
         self.progress_bar.value = 0
         self.timer_label.text = '3'
         Clock.schedule_interval(self.update_progress, 0.1)
 
-    def update_progress(self, dt): #Update the progress bar and the label
+    def update_progress(self, dt):
         if self.progress_bar.value >= self.progress_bar.max:
             Clock.unschedule(self.update_progress)
+            # Remove the timer label and add a checkmark icon
+            self.label_or_icon_container.clear_widgets()
+            self.add_completion_icon()
             return False
+
         self.progress_bar.value += dt
         remaining_time = 3 - int(self.progress_bar.value)
         self.timer_label.text = str(max(0, remaining_time))
-        if remaining_time <= 0:
-            self.timer_label.text = 'Button Activated'
+    def add_completion_icon(self):
+        # Here you can customize the icon
+        completion_icon = MDIcon(icon="check", pos_hint={'center_x': 0.5, 'center_y': 0.2}, font_size=dp(48))
+        self.label_or_icon_container.add_widget(completion_icon)
 
-    def reset_progress(self): #When the buttxon is released, reset the progress bar
+    def reset_progress(self):
         Clock.unschedule(self.update_progress)
         self.progress_bar.value = 0
-        self.timer_label.text = '3' 
+        # Clear any icons and re-add the timer label for the next countdown
+        self.label_or_icon_container.clear_widgets()
+        self.label_or_icon_container.add_widget(self.timer_label)
+        self.timer_label.text = '3'
 
         
 class RoundedButton(ButtonBehavior, Label):
