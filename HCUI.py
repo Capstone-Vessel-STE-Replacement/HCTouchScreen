@@ -15,6 +15,7 @@ from kivy.utils import get_color_from_hex
 import requests
 import subprocess
 from pymavlink import mavutil
+from kivy.uix.floatlayout import FloatLayout
 
 class ActivationProgressBar(BoxLayout): # progress bar uses kivymd for styling
     def __init__(self, **kwargs): #setup the progress bar and the label
@@ -28,7 +29,7 @@ class ActivationProgressBar(BoxLayout): # progress bar uses kivymd for styling
         self.progress_bar.height = dp(36)  # Set the height here
 
         self.add_widget(self.progress_bar) #seconds to activate label
-        self.timer_label = Label(text='3', size_hint_x=0.1)
+        self.timer_label = Label(text='3', size_hint_x=0.1, halign='center', bold=True, font_size=dp(21))
         self.timer_label.size_hint_y = None
         self.add_widget(self.timer_label)
 
@@ -150,14 +151,14 @@ class TouchScreen(BoxLayout):
             self.info_popup.is_open = True
 
     def activate_active_mode(self):
-        print("hello active")
+        print("Active")
 
     def activate_passive_mode(self):
-        print("helllo passive")
+        print("Passive")
 
 
     def activate_standby_mode(self):
-        print("helllo standby")
+        print("Standby")
 
     def update_operational_status(self, mode):
         self.ids.operating_mode_label.text = f"MODE: {mode.upper()}"
