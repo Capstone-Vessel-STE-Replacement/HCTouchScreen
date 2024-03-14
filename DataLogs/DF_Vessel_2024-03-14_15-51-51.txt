@@ -1,0 +1,1 @@
+#Time_Logged	#Tx_Start	#Tone	#Lat	#Long	#Power	#Accuracy	#Mode
