@@ -132,10 +132,10 @@ class TouchScreen(BoxLayout):
         with self.canvas.before:
             Color(rgba=get_color_from_hex('#1F448C'))
             self.rect = RoundedRectangle(size=self.size, pos=self.pos)
-        Clock.schedule_interval(self.update_time, 1)  # Schedule time updates
+      #  Clock.schedule_interval(self.update_time, 1)  # Schedule time updates
 
-    def update_time(self, *args):
-        self.ids.time_label.text = datetime.now().strftime('%H:%M')
+   # def update_time(self, *args):
+      #  self.ids.time_label.text = datetime.now().strftime('%H:%M')
     
     def on_size(self, *args):
         self.rect.size = self.size
