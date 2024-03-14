@@ -1,0 +1,34 @@
+#:kivy 1.0.9
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+#:import ButtonBehavior kivy.uix.behaviors.ButtonBehavior
+#imports here
+
+<TouchScreen>:
+
+    orientation: 'vertical'
+
+    FloatLayout: # BoxLayout for the top label
+        size_hint_y: None
+        height: '50dp'
+        padding: '5dp'
+        canvas.before:
+            Color:
+                rgba: get_color_from_hex('#7AADFA')
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [10]
+        Label: #Padding Label
+            text: 'GENERAL DYNAMICS'
+            color: 1, 1, 1, 1
+            size_hint_x: None
+            width: self.texture_size[0] + 40
+            font_size: '20sp'
+            bold: True
+        Label: #separator label
+            text: ' '
+            color: 1, 1, 1, 1
+            size_hint_x: None
+            width: self.texture_size[0] + 80
+            font_size: '20sp'
+            bold: True
