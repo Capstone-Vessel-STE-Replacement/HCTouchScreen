@@ -61,7 +61,7 @@ class TouchScreen(FloatLayout):
         except Exception as e:
             print(f"Error shutting down: {e}")
 
-class HCUIApp(MDApp):
+class HCUI2App(MDApp):
     def build(self):
         self.theme_cls.primary_palette = "Blue"
         # Create an instance of the TouchScreen class
@@ -72,4 +72,4 @@ class HCUIApp(MDApp):
         return screen
 
 if __name__ == '__main__':
-    HCUIApp().run() 
+    HCUI2App().run() 
