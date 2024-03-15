@@ -413,9 +413,7 @@ def main():
 	# pygame.quit()
 	# sys.exit()
 
-# if __name__ == "if __name__ == "__main__":
-    from HCUI import HCUIApp  # Import the HCUIApp class from HCUI.py
-    HCUIApp().run()  # Run the Kivy application__main__":
+# if __name__ == "__main__":
 # 	main()
 if __name__ == "__main__":
     from HCUI import HCUIApp  # Import the HCUIApp class from HCUI.py

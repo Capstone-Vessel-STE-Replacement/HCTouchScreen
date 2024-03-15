@@ -2,7 +2,6 @@ from enum import auto
 from kivymd.app import MDApp  
 from kivymd.uix.progressbar import MDProgressBar 
 from kivymd.uix.label import MDIcon
-
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.widget import Widget
@@ -14,11 +13,12 @@ from datetime import datetime
 from kivy.graphics import Color, Line, RoundedRectangle
 from kivy.metrics import dp
 from kivy.utils import get_color_from_hex
+from pymavlink import mavutil
+from kivy.uix.floatlayout import FloatLayout
+
 import requests
 import subprocess
 import STEdata2
-from pymavlink import mavutil
-from kivy.uix.floatlayout import FloatLayout
 
 class ActivationProgressBar(BoxLayout):
     def __init__(self, **kwargs):
