@@ -169,14 +169,14 @@ class TouchScreen(BoxLayout):
             self.info_popup.is_open = True
 
     def activate_active_mode(self):
-        print("Active")
+        STEdata2.change_mode(STEdata2.ACTIVE)  # Assuming ACTIVE is a defined constant in STEDATA2
 
     def activate_passive_mode(self):
-        print("Passive")
-
+        STEdata2.change_mode(STEdata2.PASSIVE)  # Assuming PASSIVE is a defined constant in STEDATA2
 
     def activate_standby_mode(self):
-        print("Standby")
+        STEdata2.change_mode(STEdata2.STANDBY)  # Assuming STANDBY is a defined constant in STEDATA2
+
 
     def update_operational_status(self, mode):
         self.ids.operaradio_ting_mode_label.text = f"MODE: {mode.upper()}"
