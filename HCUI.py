@@ -2,7 +2,6 @@ from enum import auto
 from kivymd.app import MDApp  
 from kivymd.uix.progressbar import MDProgressBar 
 from kivymd.uix.label import MDIcon
-
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.widget import Widget
@@ -17,6 +16,10 @@ from kivy.utils import get_color_from_hex
 import requests
 import subprocess
 from kivy.uix.floatlayout import FloatLayout
+
+import requests
+import subprocess
+import STEdata2
 
 class ActivationProgressBar(BoxLayout):
     def __init__(self, **kwargs):
@@ -167,17 +170,17 @@ class TouchScreen(BoxLayout):
             self.info_popup.is_open = True
 
     def activate_active_mode(self):
-        print("Active")
+        STEdata2.change_mode(STEdata2.ACTIVE)  # Assuming ACTIVE is a defined constant in STEDATA2
 
     def activate_passive_mode(self):
-        print("Passive")
-
+        STEdata2.change_mode(STEdata2.PASSIVE)  # Assuming PASSIVE is a defined constant in STEDATA2
 
     def activate_standby_mode(self):
-        print("Standby")
+        STEdata2.change_mode(STEdata2.STANDBY)  # Assuming STANDBY is a defined constant in STEDATA2
+
 
     def update_operational_status(self, mode):
-        self.ids.operating_mode_label.text = f"MODE: {mode.upper()}"
+        self.ids.operaradio_ting_mode_label.text = f"MODE: {mode.upper()}"
     
     def shutdown_system(self):
         try:
@@ -194,5 +197,3 @@ class HCUIApp(MDApp):
 
         return TouchScreen()
 
-if __name__ == '__main__':
-    HCUIApp().run()

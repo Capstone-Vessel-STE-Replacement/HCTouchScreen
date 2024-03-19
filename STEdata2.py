@@ -8,11 +8,14 @@ import pynmea2
 import threading
 import shutil
 import smbus2
+import radio
+import HCUI
+
 from geopy.distance import geodesic
 
 ###################################################################################
 ## THIS IS JUST A TEST FOR THE TOUCHSCREEN AND STE DATA CAPTURE
-import pygame
+#import pygame
 import sys
 
 
@@ -28,15 +31,15 @@ current_thread = None
 stop_event = threading.Event()
 # Initialize Pygame
 
-pygame.init()
+#pygame.init()
 
 # Screen dimensions
 screen_width = 800
 screen_height = 480
 
 # Set up the display
-screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption('Mode Selector')
+#screen = pygame.display.set_mode((screen_width, screen_height))
+#pygame.display.set_caption('Mode Selector')
 
 is_ready = True  # Or set to False as needed
 
@@ -80,11 +83,11 @@ def draw_buttons():
             button_color = GREEN if is_ready else RED
             display_text = "Ready" if is_ready else "Not Ready"
         
-        pygame.draw.rect(screen, button_color, rect)
-        font = pygame.font.Font(None, 36)
-        text_render = font.render(display_text, True, BLACK)
-        text_rect = text_render.get_rect(center=(rect[0] + rect[2] / 2, rect[1] + rect[3] / 2))
-        screen.blit(text_render, text_rect)
+        # pygame.draw.rect(screen, button_color, rect)
+        # font = pygame.font.Font(None, 36)
+        # text_render = font.render(display_text, True, BLACK)
+        # text_rect = text_render.get_rect(center=(rect[0] + rect[2] / 2, rect[1] + rect[3] / 2))
+        # screen.blit(text_render, text_rect)
 
 def check_button_press(pos):
     for text, rect in buttons.items():
@@ -288,8 +291,8 @@ def passive_mode():
 
 ###############################################
 ##### JOSH CODE GOES HERE
-def radio():
-	print("doing stuff")		
+def radio_Overhead():
+	radio.play_tone()		
 ################################
 	
 def active_mode():
@@ -298,7 +301,7 @@ def active_mode():
 		current_location = get_gps_data()
 		# tx_start = datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
 		tx_start = get_gps_time()
-		radio()
+		radio_Overhead()
 		pdop = current_location['pdop'] if current_location['pdop'] else "N/A"
 		log_data(tx_start, tone_hold, current_location['lat'], current_location['lon'],"0", pdop)
 		
@@ -387,28 +390,31 @@ def downlink_status():
 def main():
 	global current_mode
 	running = True
-	while running:
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				running = False
-			elif event.type == pygame.MOUSEBUTTONDOWN:
-				mode = check_button_press(pygame.mouse.get_pos())
-				if mode == "Stop":
-					current_mode = None # prevents it from hanging, remove last iteration of data logging
-					stop_event.set()
-					running = False
-				elif mode:
-					change_mode(mode)
+	# while running:
+	# 	for event in pygame.event.get():
+	# 		if event.type == pygame.QUIT:
+	# 			running = False
+	# 		elif event.type == pygame.MOUSEBUTTONDOWN:
+	# 			mode = check_button_press(pygame.mouse.get_pos())
+	# 			if mode == "Stop":
+	# 				current_mode = None # prevents it from hanging, remove last iteration of data logging
+	# 				stop_event.set()
+	# 				running = False
+	# 			elif mode:
+	# 				change_mode(mode)
 
-		screen.fill(WHITE)
-		draw_buttons()
-		pygame.display.flip()
+	# 	screen.fill(WHITE)
+	# 	draw_buttons()
+	# 	pygame.display.flip()
 
-	if current_thread is not None:
-		current_thread.join()
+	# if current_thread is not None:
+	# 	current_thread.join()
 
-	pygame.quit()
-	sys.exit()
+	# pygame.quit()
+	# sys.exit()
 
+# if __name__ == "__main__":
+# 	main()
 if __name__ == "__main__":
-	main()
+    from HCUI import HCUIApp  # Import the HCUIApp class from HCUI.py
+    HCUIApp().run()  # Run the Kivy application
