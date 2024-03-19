@@ -16,7 +16,6 @@ from kivy.metrics import dp
 from kivy.utils import get_color_from_hex
 import requests
 import subprocess
-from pymavlink import mavutil
 from kivy.uix.floatlayout import FloatLayout
 
 class ActivationProgressBar(BoxLayout):
