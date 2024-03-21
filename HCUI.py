@@ -13,7 +13,8 @@ from datetime import datetime
 from kivy.graphics import Color, Line, RoundedRectangle
 from kivy.metrics import dp
 from kivy.utils import get_color_from_hex
-from pymavlink import mavutil
+import requests
+import subprocess
 from kivy.uix.floatlayout import FloatLayout
 
 import requests
