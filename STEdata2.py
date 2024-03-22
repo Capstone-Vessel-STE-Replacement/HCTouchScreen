@@ -71,18 +71,7 @@ buttons = {
     "Passive": (button_x, passive_button_y, button_width, button_height),
     "Stop": (button_x, stop_button_y, button_width, button_height)
 }
-
-def draw_buttons():
-    screen.fill(WHITE)  # Clear screen before drawing buttons
-    for text, rect in buttons.items():
-        button_color = GRAY
-        display_text = text
-
-        # Special handling for "Ready/Not Ready" button
-        if text == "Ready/Not Ready":
-            button_color = GREEN if is_ready else RED
-            display_text = "Ready" if is_ready else "Not Ready"
-        
+    
 def check_button_press(pos):
     for text, rect in buttons.items():
         if rect[0] < pos[0] < rect[0] + rect[2] and rect[1] < pos[1] < rect[1] + rect[3]:
